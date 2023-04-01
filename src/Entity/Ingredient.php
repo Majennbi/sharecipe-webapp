@@ -4,10 +4,11 @@ namespace App\Entity;
 
 use App\Repository\IngredientRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
+#[UniqueEntity('name', message: 'Cet ingrédient existe déjà')]
 class Ingredient
 {
     #[ORM\Id]
@@ -17,13 +18,14 @@ class Ingredient
 
     #[ORM\Column(length: 50)]
     #[Assert\NotBlank]
-    #[Assert\Length(min: 2, max: 50)]
+    #[Assert\Length(min: 2, max: 50, minMessage: 'Le nom doit faire au moins 2 caractères', 
+    maxMessage: 'Le nom ne peut pas faire plus de 50 caractères')]
     private ?string $name = null;
 
     #[ORM\Column]
     #[Assert\NotNull]
     #[Assert\Positive]
-    #[Assert\LessThan(value: 200)]
+    #[Assert\LessThan(value: 200, message: 'Le prix ne peut pas être supérieur à 200€')]
     private ?float $price = null;
 
     #[ORM\Column]

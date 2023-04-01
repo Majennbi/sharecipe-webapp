@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sharecipe - Mes ingrédients{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+	{% if not ingredients is same as ([]) %}
+    <h1>Mes ingrédients</h1>
+
+	<a href="{{ path('ingredient.new') }}" class="btn btn-primary mt-4 mb-4">Ajouter un ingrédient</a>
+
+{% for message in app.flashes('success') %}
+	<div class="alert alert-success">
+		{{ message }}
+	</div>
+{% endfor %}
+
+{% for message in app.flashes('danger') %}
+	<div class="alert alert-danger">
+		{{ message }}
+	</div>
+{% endfor %}
+
+<div class="mb-4">
+	<h6> Il y  a {{ ingredients.getTotalItemCount }} ingrédients au total</h6>
+</div>
+
+<table class="table table-hover">
+	<thead>
+		<tr>
+			<th scope="col">Numéro</th>
+			<th scope="col">Nom</th>
+			<th scope="col">Prix</th>
+			<th scope="col">Date de création</th>
+			<th scope="col">Modification</th>
+			<th scope="col">Suppression</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for ingredient in ingredients %}
+		<tr class="table-primary">
+                <td>{{ ingredient.id }}</td>
+                <td>{{ ingredient.name }}</td>
+                <td>{{ ingredient.price }}</td>
+                <td>{{ ingredient.createdAt|date('d/m/Y') }}</td>
+				<td>
+					<a href="{{ path('ingredient.edit', {'id': ingredient.id}) }}" class="btn btn-warning">Modifier</a>
+				</td>
+				<td>
+					<a href="{{ path('ingredient.delete', {'id': ingredient.id}) }}" class="btn btn-danger">Supprimer</a>
+				</td>
+
+		</tr>
+{% endfor %}
+	</tbody>
+</table>
+<div class="navigation d-flex mt-4">
+	{{ knp_pagination_render(ingredients) }}
+</div>
+{% else %}
+	<div class="alert alert-info" role="alert">
+		<h4 class="alert-heading">Aucun ingrédient n'a été trouvé</h4>
+		<p>Vous n'avez pas encore d'ingrédient, ajoutez-en un en cliquant sur le bouton ci-dessous</p>
+		<hr>
+	</div>
+{% endif %}
+</div>
+{% endblock %}
