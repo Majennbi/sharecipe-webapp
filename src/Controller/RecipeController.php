@@ -103,7 +103,7 @@ class RecipeController extends AbstractController
      * This function is used to delete a recipe
      * 
      * @param EntityManagerInterface $manager
-     * @param Ingredient $ingredient
+     * @param Recipe $recipe
      * @return Response
      */
 
