@@ -25,8 +25,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(
         min: 2,
         max: 50,
-        minMessage: 'Le nom doit faire au moins 2 caractères',
-        maxMessage: 'Le nom ne peut pas faire plus de 50 caractères'
     )]
     private ?string $fullName = null;
 
@@ -34,8 +32,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Assert\Length(
         min: 2,
         max: 50,
-        minMessage: 'Le peusdo doit faire au moins 2 caractères',
-        maxMessage: 'Le pesudo ne peut pas faire plus de 50 caractères'
     )]
     private ?string $pseudo = null;
 
@@ -50,7 +46,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     #[ORM\Column(type: 'json')]
-    #[Assert\NotBlank]
+    #[Assert\NotNull]
     private array $roles = [];
 
     private ?string $plainPassword = null;
@@ -60,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column (type: 'string')]
     #[Assert\NotBlank]
-    private ?string $password = null;
+    private ?string $password = 'password';
 
     #[ORM\Column (type: 'datetime_immutable')]
     #[Assert\NotNull]
