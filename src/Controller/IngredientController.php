@@ -100,6 +100,14 @@ class IngredientController extends AbstractController
             
     }
 
+    /**
+     * This function is used to delete an ingredient
+     * 
+     * @param EntityManagerInterface $manager
+     * @param Ingredient $ingredient
+     * @return Response
+     */
+
     #[Route('/ingredient/delete/{id}', name: 'ingredient.delete', methods: ['GET','POST'])]
     public function delete(EntityManagerInterface $manager, Ingredient $ingredient): Response
     {   
