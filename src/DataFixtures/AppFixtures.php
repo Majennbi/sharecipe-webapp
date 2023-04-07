@@ -27,12 +27,31 @@ class AppFixtures extends Fixture
 
     public function load(ObjectManager $manager): void
     {
+
+
+        //Users 
+        $users = [];
+        for ($l = 0; $l < 10; $l++) {
+            $user = new User();
+            $user->setFullname($this->faker->Name());
+            $user->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->userName() : null);
+            $user->setEmail($this->faker->email());
+            $user->setPassword('password');
+            $user->setRoles(['ROLE_USER']);
+            $user->setPlainPassword('password');
+
+            $users[] = $user;
+            $manager->persist($user);
+        }
+
+
         //Ingredients
         $ingredients = [];
         for ($i = 0; $i < 20; $i++) {
             $ingredient = new Ingredient();
             $ingredient->setName($this->faker->word());
             $ingredient->setPrice(mt_rand(1, 100));
+            $ingredient->setUser($users[mt_rand(0, count($users) - 1)]);
             $ingredients[] = $ingredient;
 
             $manager->persist($ingredient);
@@ -48,6 +67,7 @@ class AppFixtures extends Fixture
         $recipe->setLevel($this->faker->word());
         $recipe->setDescription($this->faker->paragraph());
         $recipe->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
+        $recipe->setUser($users[mt_rand(0, count($users) - 1)]);
 
             for ($k = 0; $k < 20; $k++) {
                 $recipe->addIngredient($ingredients[mt_rand(0, count($ingredients) - 1)]);
@@ -55,18 +75,6 @@ class AppFixtures extends Fixture
             $manager->persist($recipe);
         }
 
-        //Users 
-        for ($l = 0; $l < 10; $l++) {
-            $user = new User();
-            $user->setFullname($this->faker->Name());
-            $user->setPseudo(mt_rand(0, 1) === 1 ? $this->faker->userName() : null);
-            $user->setEmail($this->faker->email());
-            $user->setPassword('password');
-            $user->setRoles(['ROLE_USER']);
-            $user->setPlainPassword('password');
-
-            $manager->persist($user);
-        }
 
         $manager->flush();
         
