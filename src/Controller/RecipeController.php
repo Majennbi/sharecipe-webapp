@@ -138,7 +138,7 @@ class RecipeController extends AbstractController
      * @return Response
      */
 
-    #[Security('is_granted("ROLE_USER") and recipe.getIsPublic() === true', message: "Vous n'avez pas accès à cette ressource")]
+    #[Security('is_granted("ROLE_USER") and (recipe.getIsPublic() === true || user === recipe.getUser())', message: "Vous n'avez pas accès à cette ressource")]
     #[Route('/recipe/{id}', name: 'recipe.show', methods: ['GET', 'POST'])]
     public function show(Recipe $recipe, Request $request, EntityManagerInterface $manager, MarkRepository $markRepository): Response
     {   

@@ -9,22 +9,25 @@
 	<div class="container">
 		<h1 class="mt-4">{{ recipe.name }}</h1>
 
-{% for message in app.flashes('success') %}
-	<div class="alert alert-success">
-		{{ message }}
-	</div>
-{% endfor %}
+		<div class="recipe_image">
+			<img style="max-width:500px;" src="{{ vich_uploader_asset(recipe, 'imageFile') }}" alt="Image de la recette">
+		</div>
 
-{% for message in app.flashes('danger') %}
-	<div class="alert alert-danger">
-		{{ message }}
-	</div>
-{% endfor %}
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
 
 
-<p>La moyenne de cette recette est :
-	{{ recipe.averageMark|number_format(2, '.', ',') }}/5</p>
-
+		<p>La moyenne de cette recette est :
+			{{ recipe.averageMark|number_format(2, '.', ',') }}/5</p>
 
 
 		<span class="badge bg-primary">Créé le
@@ -33,42 +36,42 @@
 			{{ recipe.updatedAt|date('d/m/Y') }}</span>
 
 		{% if recipe.time %}
-<p class="mt-4">Temps (en minutes) :</p>
+			<p class="mt-4">Temps (en minutes) :</p>
 
-				{{ recipe.time }}</p>
-		{% else %}
-			<p class="mt-4">Temps (en minutes) : Non renseigné</p>
-		{% endif %}
+			{{ recipe.time }}</p>
+	{% else %}
+		<p class="mt-4">Temps (en minutes) : Non renseigné</p>
+	{% endif %}
 
-		{% if recipe.servings %}
-			<p>Nombre de personnes :
-				{{ recipe.servings }}</p>
-		{% else %}
-			<p>Nombre de personnes : Non renseigné</p>
-		{% endif %}
+	{% if recipe.servings %}
+		<p>Nombre de personnes :
+			{{ recipe.servings }}</p>
+	{% else %}
+		<p>Nombre de personnes : Non renseigné</p>
+	{% endif %}
 
-		{% if recipe.level %}
-			<p>Difficulté :
-				{{ recipe.level }}</p>
-		{% else %}
-			<p>Difficulté : Non renseigné</p>
-		{% endif %}
+	{% if recipe.level %}
+		<p>Difficulté :
+			{{ recipe.level }}</p>
+	{% else %}
+		<p>Difficulté : Non renseigné</p>
+	{% endif %}
 
-		<div>
-			<p>Description :
-				{{ recipe.description|raw }}</p>
-		</div>
+	<div>
+		<p>Description :
+			{{ recipe.description|raw }}</p>
+	</div>
 
-		<p>Ingrédients nécessaires :</p>
+	<p>Ingrédients nécessaires :</p>
 
-		{% for ingredient in recipe.ingredients %}
+	{% for ingredient in recipe.ingredients %}
 
-			<span class="badge bg-primary">{{ ingredient.name }}</span>
+		<span class="badge bg-primary">{{ ingredient.name }}</span>
 
-		{% endfor %}
+	{% endfor %}
 
-<div class="mark bg bg-secondary mt-4 p-3">
-			{{ form(form) }}
+	<div class="mark bg bg-secondary mt-4 p-3">
+		{{ form(form) }}
 		</div>
 	</div>
 {% endblock %}
