@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
+use App\Entity\Mark;
 use App\Entity\User;
 use Faker\Generator;
 use App\Entity\Recipe;
@@ -19,10 +20,9 @@ class AppFixtures extends Fixture
 
     private Generator $faker;
 
-    public function __construct() 
+    public function __construct()
     {
         $this->faker = Factory::create('fr_FR');
-    
     }
 
     public function load(ObjectManager $manager): void
@@ -58,29 +58,39 @@ class AppFixtures extends Fixture
         }
 
 
-    //Recipes
-    for ($j = 0; $j < 20; $j++) {
-        $recipe = new Recipe();
-        $recipe->setName($this->faker->word());
-        $recipe->setTime(mt_rand(0, 1) == 1 ? mt_rand(1, 1440) : null);
-        $recipe->setServings(mt_rand(1, 50));
-        $recipe->setLevel('facile');
-        $recipe->setDescription($this->faker->paragraph());
-        $recipe->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
-        $recipe->setIsPublic(mt_rand(0, 1) == 1 ? true : false);
-        $recipe->setUser($users[mt_rand(0, count($users) - 1)]);
+        //Recipes
+        $recipes = [];
+        for ($j = 0; $j < 20; $j++) {
+
+            $recipe = new Recipe();
+            $recipe->setName($this->faker->word());
+            $recipe->setTime(mt_rand(0, 1) == 1 ? mt_rand(1, 1440) : null);
+            $recipe->setServings(mt_rand(1, 50));
+            $recipe->setLevel('facile');
+            $recipe->setDescription($this->faker->paragraph());
+            $recipe->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
+            $recipe->setIsPublic(mt_rand(0, 1) == 1 ? true : false);
+            $recipe->setUser($users[mt_rand(0, count($users) - 1)]);
 
             for ($k = 0; $k < 20; $k++) {
                 $recipe->addIngredient($ingredients[mt_rand(0, count($ingredients) - 1)]);
             }
+            $recipes[] = $recipe;
             $manager->persist($recipe);
         }
 
+        // Marks
+        foreach ($recipes as $recipe) {
+            for ($m = 0; $m < mt_rand(0, 4); $m++) {
+                $mark = new Mark();
+                $mark->setUser($users[mt_rand(0, count($users) - 1)]);
+                $mark->setRecipe($recipe);
+                $mark->setMark(mt_rand(1, 5));
+
+                $manager->persist($mark);
+            }
+        }
 
         $manager->flush();
-        
     }
-
-    
-
 }

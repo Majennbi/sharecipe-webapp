@@ -9,6 +9,24 @@
 	<div class="container">
 		<h1 class="mt-4">{{ recipe.name }}</h1>
 
+{% for message in app.flashes('success') %}
+	<div class="alert alert-success">
+		{{ message }}
+	</div>
+{% endfor %}
+
+{% for message in app.flashes('danger') %}
+	<div class="alert alert-danger">
+		{{ message }}
+	</div>
+{% endfor %}
+
+
+<p>La moyenne de cette recette est :
+	{{ recipe.averageMark|number_format(2, '.', ',') }}/5</p>
+
+
+
 		<span class="badge bg-primary">Créé le
 			{{ recipe.createdAt|date('d/m/Y') }}</span>
 		<span class="badge bg-primary">Mis à jour le
@@ -48,5 +66,9 @@
 			<span class="badge bg-primary">{{ ingredient.name }}</span>
 
 		{% endfor %}
+
+<div class="mark bg bg-secondary mt-4 p-3">
+			{{ form(form) }}
+		</div>
 	</div>
 {% endblock %}
