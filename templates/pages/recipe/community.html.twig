@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sharecipe - Mes recettes
+{% block title %}Sharecipe - Recettes de la communauté
 {% endblock %}
 
 {% block body %}
@@ -18,6 +18,9 @@
 						<div class="card-body">
 							<h4 class="card-title">{{recipe.name}}</h4>
 							<p class="card-text">{{recipe.description|slice(0, 100) ~ '...'}}</p>
+							<div>
+								<a href="{{ path('recipe.show', {'id': recipe.id}) }}" class="btn btn-secondary">Voir la recette</a>
+							</div>
 						</div>
 					</div>
 				{% endfor %}

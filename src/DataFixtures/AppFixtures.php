@@ -7,6 +7,7 @@ use App\Entity\Mark;
 use App\Entity\User;
 use Faker\Generator;
 use App\Entity\Recipe;
+use App\Entity\Contact;
 use App\Entity\Ingredient;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -89,6 +90,17 @@ class AppFixtures extends Fixture
 
                 $manager->persist($mark);
             }
+        }
+
+        //Contact
+        for ($n = 0; $n < 5; $n++) {
+            $contact = new Contact();
+            $contact->setFullName($this->faker->Name());
+            $contact->setEmail($this->faker->email());
+            $contact->setSubject($this->faker->word());
+            $contact->setMessage($this->faker->paragraph());
+
+            $manager->persist($contact);
         }
 
         $manager->flush();

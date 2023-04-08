@@ -37,12 +37,12 @@ class RecipeType extends AbstractType
                 'required' => true,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Nom de l\'ingrédient',
+                    'placeholder' => 'Nom de la recette',
                     'minlength' => '2',
                     'maxlength' => '50',
                 ],
 
-                'label' => 'Nom de l\'ingrédient',
+                'label' => 'Nom de la recette',
                 'label_attr' => [
                     'class' => 'form-label mt-4'
                 ],

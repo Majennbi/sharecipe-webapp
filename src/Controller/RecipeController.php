@@ -117,7 +117,7 @@ class RecipeController extends AbstractController
      * @return Response
      */
 
-    #[Route('/recipe/public', name: 'recipe.index.public', methods: ['GET'])]
+    #[Route('/recipe/community', name: 'recipe.community', methods: ['GET'])]
     public function indexPublic(RecipeRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $recipes = $paginator->paginate(
@@ -125,7 +125,7 @@ class RecipeController extends AbstractController
             $request->query->getInt('page', 1),
             10
         );
-        return $this->render('pages/recipe/index_public.html.twig', [
+        return $this->render('pages/recipe/community.html.twig', [
             'recipes' => $recipes
         ]);
 
@@ -164,7 +164,7 @@ class RecipeController extends AbstractController
 
             $manager->flush();
 
-            $this->addFlash('success', 'La recette a bien été modifé');
+            $this->addFlash('success', 'La recette a bien été modifée');
             return $this->redirectToRoute('recipe.show', ['id' => $recipe->getId()]);
         }
         return $this->render('pages/recipe/show.html.twig', [
@@ -182,6 +182,7 @@ class RecipeController extends AbstractController
      * @return Response
      */
 
+    #[Security('is_granted("ROLE_USER") and user === ingredient.getUser()', message: "Vous n'avez pas accès à cette ressource")]
     #[Route('/recipe/delete/{id}', name: 'recipe.delete', methods: ['GET', 'POST'])]
     public function delete(EntityManagerInterface $manager, Recipe $recipe): Response
     {

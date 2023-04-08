@@ -116,6 +116,7 @@ class IngredientController extends AbstractController
      * @return Response
      */
 
+    #[Security('is_granted("ROLE_USER") and user === ingredient.getUser()', message: "Vous n'avez pas accès à cette ressource")]
     #[Route('/ingredient/delete/{id}', name: 'ingredient.delete', methods: ['GET','POST'])]
     public function delete(EntityManagerInterface $manager, Ingredient $ingredient): Response
     {   

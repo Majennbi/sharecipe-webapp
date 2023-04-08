@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sharecipe - Contact{% endblock %}
+
+{% block body %}
+    <h1>Formulaire de contact</h1>
+
+
+    <div class="container">
+{% for message in app.flashes('success') %}
+	<div class="alert alert-success">
+		{{ message }}
+	</div>
+{% endfor %}
+
+{% for message in app.flashes('danger') %}
+	<div class="alert alert-danger">
+		{{ message }}
+	</div>
+{% endfor %}
+
+        {{form(form)}}
+    </div>
+{% endblock %}
+
+
