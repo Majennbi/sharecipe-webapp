@@ -2,16 +2,27 @@
 
 namespace App\Controller;
 
-use App\Controller\HttpFoundation\Response;
+use App\Repository\RecipeRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home', methods: ['GET'])]
-    public function index()
+    public function index(RecipeRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
-        return $this->render('pages/home.html.twig');
+
+        $recipes = $paginator->paginate(
+            $repository->findBy(['isPublic' => true]),
+            $request->query->getInt('page', 1),
+            3
+        );
+
+        return $this->render('pages/home.html.twig', [
+            'recipes' => $recipes,
+        ]);
     }
-    
 }

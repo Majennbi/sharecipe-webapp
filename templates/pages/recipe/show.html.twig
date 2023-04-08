@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sharecipe
+	{{ recipe.name }}
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<h1 class="mt-4">{{ recipe.name }}</h1>
+
+		<span class="badge bg-primary">Créé le
+			{{ recipe.createdAt|date('d/m/Y') }}</span>
+		<span class="badge bg-primary">Mis à jour le
+			{{ recipe.updatedAt|date('d/m/Y') }}</span>
+
+		{% if recipe.time %}
+<p class="mt-4">Temps (en minutes) :</p>
+
+				{{ recipe.time }}</p>
+		{% else %}
+			<p class="mt-4">Temps (en minutes) : Non renseigné</p>
+		{% endif %}
+
+		{% if recipe.servings %}
+			<p>Nombre de personnes :
+				{{ recipe.servings }}</p>
+		{% else %}
+			<p>Nombre de personnes : Non renseigné</p>
+		{% endif %}
+
+		{% if recipe.level %}
+			<p>Difficulté :
+				{{ recipe.level }}</p>
+		{% else %}
+			<p>Difficulté : Non renseigné</p>
+		{% endif %}
+
+		<div>
+			<p>Description :
+				{{ recipe.description|raw }}</p>
+		</div>
+
+		<p>Ingrédients nécessaires :</p>
+
+		{% for ingredient in recipe.ingredients %}
+
+			<span class="badge bg-primary">{{ ingredient.name }}</span>
+
+		{% endfor %}
+	</div>
+{% endblock %}

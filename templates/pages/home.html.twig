@@ -4,25 +4,58 @@
 {% endblock %}
 
 {% block body %}
-	<div class="\"container\"">
-{% for message in app.flashes('success') %}
-	<div class="alert alert-success">
-		{{ message }}
-	</div>
-{% endfor %}
+	<div class="container">
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-{% for message in app.flashes('danger') %}
-	<div class="alert alert-danger">
-		{{ message }}
-	</div>
-{% endfor %}
+		{% for message in app.flashes('danger') %}
+			<div class="alert alert-danger">
+				{{ message }}
+			</div>
+		{% endfor %}
 
-		<div class="\"row\"">
-			<div class="\"col-md-12\"">
+		<div class="row">
+			<div class="col-md-12">
 				<h1>Sharecipe</h1>
 				<p>Sharecipe is a recipe sharing website. You can share your recipes with other users and see their recipes.</p>
 				<p>Made with passion by Benjamin MICHEL</p>
 			</div>
+
+<div class="alert alert-secondary">
+	<strong>Let's go ! </strong>
+	Sign up or log in to start sharing your recipes.
+<a class="nav-link" href="{{path('security.registration')}}">S'inscrire</a>
+
+</div>
+
+
+			<div>
 		</div>
-	</div>
-{% endblock %}
+
+
+		<div class="recipes">
+			<h2 class="mt-4">Recettes de la communauté</h2>
+			<div class="d-flex justify-content-between flex-gap">
+				{% for recipe in recipes %}
+					<div class="card text-white bg-primary" style="max-width: 20rem;">
+						<div class="card-header">Recette n°
+							{{recipe.id}}
+						</div>
+						<div class="card-body">
+							<h4 class="card-title">{{recipe.name}}</h4>
+							<p class="card-text">{{recipe.description|slice(0, 100) ~ '...'}}</p>
+						</div>
+					</div>
+				{% endfor %}
+
+
+			</div>
+			<div class="d-flex mt-4 text-left">
+				{{ knp_pagination_render(recipes) }}
+			</div>
+
+
+		{% endblock %}

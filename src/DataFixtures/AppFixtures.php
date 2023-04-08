@@ -64,9 +64,10 @@ class AppFixtures extends Fixture
         $recipe->setName($this->faker->word());
         $recipe->setTime(mt_rand(0, 1) == 1 ? mt_rand(1, 1440) : null);
         $recipe->setServings(mt_rand(1, 50));
-        $recipe->setLevel($this->faker->word());
+        $recipe->setLevel('facile');
         $recipe->setDescription($this->faker->paragraph());
         $recipe->setIsFavorite(mt_rand(0, 1) == 1 ? true : false);
+        $recipe->setIsPublic(mt_rand(0, 1) == 1 ? true : false);
         $recipe->setUser($users[mt_rand(0, count($users) - 1)]);
 
             for ($k = 0; $k < 20; $k++) {

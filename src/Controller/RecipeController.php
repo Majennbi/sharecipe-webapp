@@ -30,9 +30,9 @@ class RecipeController extends AbstractController
     public function index(RecipeRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
         $recipes = $paginator->paginate(
-        $repository->findBy(['user' => $this->getUser()]),
-        $request->query->getInt('page', 1),
-        10
+            $repository->findBy(['user' => $this->getUser()]),
+            $request->query->getInt('page', 1),
+            10
         );
 
         return $this->render('pages/recipe/index.html.twig', [
@@ -106,6 +106,46 @@ class RecipeController extends AbstractController
     }
 
     /**
+     * This function is used to display the list of public recipes
+     * 
+     * @param RecipeRepository $repository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @return Response
+     */
+
+    #[Route('/recipe/public', name: 'recipe.index.public', methods: ['GET'])]
+    public function indexPublic(RecipeRepository $repository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $recipes = $paginator->paginate(
+            $repository->findBy(['isPublic' => true]),
+            $request->query->getInt('page', 1),
+            10
+        );
+        return $this->render('pages/recipe/index_public.html.twig', [
+            'recipes' => $recipes
+        ]);
+
+    }
+
+    /**
+     * This function is used to display a recipe if it is public
+     * 
+     * @param Recipe $recipe
+     * @return Response
+     */
+
+    #[Security('is_granted("ROLE_USER") and recipe.getIsPublic() === true', message: "Vous n'avez pas accès à cette ressource")]
+    #[Route('/recipe/{id}', name: 'recipe.show', methods: ['GET'])]
+    public function show(Recipe $recipe): Response
+    {
+        return $this->render('pages/recipe/show.html.twig', [
+            'recipe' => $recipe,
+        ]);
+    }
+
+
+    /**
      * This function is used to delete a recipe
      * 
      * @param EntityManagerInterface $manager
@@ -126,4 +166,3 @@ class RecipeController extends AbstractController
         return $this->redirectToRoute('recipe');
     }
 }
-
