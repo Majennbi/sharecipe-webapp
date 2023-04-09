@@ -32,6 +32,17 @@ class AppFixtures extends Fixture
 
         //Users 
         $users = [];
+
+        $admin = new User();
+        $admin->setFullname('Administrateur');
+        $admin->setPseudo('admin');
+        $admin->setEmail('admin@sharecipe.fr');
+        $admin->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+        $admin->setPlainPassword('password');
+
+        $users[] = $admin;
+        $manager->persist($admin);
+
         for ($l = 0; $l < 10; $l++) {
             $user = new User();
             $user->setFullname($this->faker->Name());
