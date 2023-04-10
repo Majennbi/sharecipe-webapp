@@ -3,10 +3,11 @@
 {% block title %}Sharecipe - Contact{% endblock %}
 
 {% block body %}
-    <h1>Formulaire de contact</h1>
 
+    <div class="container mt-4">
 
-    <div class="container">
+<h1>Formulaire de contact</h1>
+
 {% for message in app.flashes('success') %}
 	<div class="alert alert-success">
 		{{ message }}
