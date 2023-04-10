@@ -27,6 +27,7 @@ class Recipe
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: 'Le nom ne peut pas être vide')]
     #[Assert\Length(
         min: 2,
         max: 50,
